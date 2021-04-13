@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 import environ
 env = environ.Env(
@@ -61,6 +61,18 @@ ROOT_URLCONF = 'rondgang_django.urls'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+    {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [BASE_DIR / '../templates'],
         'APP_DIRS': True,
@@ -82,7 +94,11 @@ WSGI_APPLICATION = 'rondgang_django.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db()
+#    'default': env.db()
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(env('DB_DIR'), 'rondgang')
+    }
 }
 
 
