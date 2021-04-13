@@ -13,14 +13,12 @@ services:
       - "8458:8458"
     command: -p 8458
   adminer:
-    image: adminer
+    image: adminer:latest
     ports:
       - 8080:8080
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
     ports:
       - "8000:8000"
     depends_on:
