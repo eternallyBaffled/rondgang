@@ -10,13 +10,22 @@ class Gemeente(models.Model):
 class Segment(models.Model):
     gemeente = models.CharField(max_length=55)
     straat = models.CharField(max_length=50)
-    commentaar = models.TextField()
+    commentaar = models.TextField(blank=True)
+
+    def __str__(self):
+        return '%s, %s' % (self.straat, self.gemeente)
+
+    class Meta:
+        verbose_name_plural = 'segmenten'
 
 
 class Status(models.Model):
-    gemeente = models.CharField(max_length=20)
-    straat = models.CharField(max_length=50)
+    segment = models.ForeignKey(Segment, on_delete=models.CASCADE)
     afgewerkt = models.BooleanField()
-    lid = models.CharField(max_length=50)
+#    lid = models.ForeignKey(Lid, to_field='naam')
+    lid = models.CharField(max_length=50, null=True)
     datum = models.DateField(default=date.today)
-    commentaar = models.TextField()
+    commentaar = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name_plural = 'statussen'
